@@ -1,4 +1,4 @@
-package refactoring.maven.link;
+package legacy.refactor.cincospenguinos;
 
 public class Sorter {
     private int[] toSort;

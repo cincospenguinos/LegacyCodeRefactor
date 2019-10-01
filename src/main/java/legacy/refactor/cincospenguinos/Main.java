@@ -1,4 +1,4 @@
-package refactoring.maven.link;
+package legacy.refactor.cincospenguinos;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
