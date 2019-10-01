@@ -5,8 +5,7 @@ import com.google.gson.reflect.TypeToken;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.Map;
-import java.util.Scanner;
+import java.util.*;
 
 public class Main {
     public static void main(String[] args) {
@@ -44,6 +43,30 @@ public class Main {
 
         Gson gson = new Gson();
         Map<String, Integer[]> map = gson.fromJson(builder.toString(), new TypeToken<Map<String, Integer[]>>(){}.getType());
+        Map<String, int[]> otherMap = new TreeMap<>();
 
+        for (Map.Entry<String, Integer[]> e : map.entrySet()) {
+            int[] ints = Arrays.stream(e.getValue()).mapToInt(i->i).toArray();
+            Sorter sorter =  new Sorter(ints);
+            sorter.sort();
+            otherMap.put(e.getKey(), ints);
+        }
+
+        System.out.println("***********CONTENTS***********");
+        for(Map.Entry<String, int[]> e : otherMap.entrySet()) {
+            System.out.print(e.getKey());
+
+            StringBuilder builder1 = new StringBuilder();
+            builder1.append("   ");
+
+            for (int i : e.getValue()) {
+                builder1.append(i);
+                builder1.append(", ");
+            }
+
+            String str = builder1.toString();
+            str = str.substring(0, str.length() - 1);
+            System.out.println(str);
+        }
     }
 }
