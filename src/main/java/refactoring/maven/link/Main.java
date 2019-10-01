@@ -9,6 +9,7 @@ import java.util.*;
 
 public class Main {
     private static boolean shouldReverse = false;
+    private static boolean deDup = false;
 
     public static void main(String[] args) {
         if (args.length < 1) {
@@ -23,9 +24,18 @@ public class Main {
             System.exit(1);
         }
 
-        if (args.length > 1 && fileName.equals("--reverse") || fileName.equals("-r")) {
-            shouldReverse = true;
-            fileName = args[1];
+        if (args.length > 1) {
+            for (int i = 0; i < args.length; i++) {
+                String str = args[i];
+
+                if (str.equals("--reverse") || str.equals("-r")) {
+                    shouldReverse = true;
+                } else if (str.equals("--deduplicate") || str.equals("-d")) {
+                    deDup = true;
+                } else {
+                    fileName = str;
+                }
+            }
         }
 
         File file = new File(fileName);
@@ -54,7 +64,7 @@ public class Main {
 
         for (Map.Entry<String, Integer[]> e : map.entrySet()) {
             int[] ints = Arrays.stream(e.getValue()).mapToInt(i->i).toArray();
-            Sorter sorter =  new Sorter(ints, shouldReverse);
+            Sorter sorter =  new Sorter(ints, shouldReverse, deDup);
             int[] newInts = sorter.sort();
             otherMap.put(e.getKey(), newInts);
         }

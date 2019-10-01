@@ -3,24 +3,67 @@ package refactoring.maven.link;
 public class Sorter {
     private int[] toSort;
     private boolean otherWay;
+    private boolean dup;
 
-    public Sorter(int[] _toSort, boolean _otherWay) {
+    public Sorter(int[] _toSort, boolean _otherWay, boolean _dup) {
         toSort = _toSort;
         otherWay = _otherWay;
+        dup = _dup;
     }
 
     public int[] sort() {
-        int[] array = new int[toSort.length];
-
-        for (int i = 0; i < toSort.length; i++) {
-            array[i] = toSort[i];
-        }
+        int[] array;
 
         if (otherWay) {
-            return otherSort(array);
+            array = otherSort(toSort);
         } else {
-            return sort(array);
+            array = sort(toSort);
         }
+
+        if (dup) {
+            int[] newArray = new int[array.length];
+            for (int i = 0; i < newArray.length; i++) {
+                newArray[i] = -1;
+            }
+
+            int i = 0;
+            for (int j = 0; j < array.length; j++) {
+                int o = array[j];
+
+                if (i > 0) {
+                    if (newArray[i] != o && newArray[i - 1] != o) {
+                        newArray[i] = o;
+                        i++;
+                        continue;
+                    }
+                } else if (newArray[i] != o) {
+                    newArray[i] = o;
+                    i++;
+                }
+            }
+
+            int idx = 0;
+            for(int j = 0; j < newArray.length; j++) {
+                int n = newArray[j];
+                if (n == -1) {
+                    idx = j - 1;
+                    break;
+                }
+            }
+
+            if (idx == 0) {
+                idx =  newArray.length - 1;
+            }
+
+            int[] trueArray = new int[idx + 1];
+            for (int j = 0; j < trueArray.length; j++) {
+                trueArray[j] = newArray[j];
+            }
+
+            return trueArray;
+        }
+
+        return array;
     }
 
     private int[] sort(int[] array) {
