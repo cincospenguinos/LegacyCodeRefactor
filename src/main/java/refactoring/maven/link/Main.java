@@ -8,6 +8,8 @@ import java.io.FileNotFoundException;
 import java.util.*;
 
 public class Main {
+    private static boolean shouldReverse = false;
+
     public static void main(String[] args) {
         if (args.length < 1) {
             System.out.println("Usage: refactoring <filename> <options>");
@@ -19,6 +21,11 @@ public class Main {
         if (fileName.equals("--help") || fileName.equals("-h")) {
             System.out.println("Usage: refactoring <filename> <options>");
             System.exit(1);
+        }
+
+        if (args.length > 1 && fileName.equals("--reverse") || fileName.equals("-r")) {
+            shouldReverse = true;
+            fileName = args[1];
         }
 
         File file = new File(fileName);
@@ -47,7 +54,7 @@ public class Main {
 
         for (Map.Entry<String, Integer[]> e : map.entrySet()) {
             int[] ints = Arrays.stream(e.getValue()).mapToInt(i->i).toArray();
-            Sorter sorter =  new Sorter(ints);
+            Sorter sorter =  new Sorter(ints, shouldReverse);
             int[] newInts = sorter.sort();
             otherMap.put(e.getKey(), newInts);
         }
