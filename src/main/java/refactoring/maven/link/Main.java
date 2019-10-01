@@ -48,8 +48,8 @@ public class Main {
         for (Map.Entry<String, Integer[]> e : map.entrySet()) {
             int[] ints = Arrays.stream(e.getValue()).mapToInt(i->i).toArray();
             Sorter sorter =  new Sorter(ints);
-            sorter.sort();
-            otherMap.put(e.getKey(), ints);
+            int[] newInts = sorter.sort();
+            otherMap.put(e.getKey(), newInts);
         }
 
         System.out.println("***********CONTENTS***********");
