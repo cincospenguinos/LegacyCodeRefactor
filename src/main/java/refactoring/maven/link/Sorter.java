@@ -36,12 +36,14 @@ public class Sorter {
             return newArray;
         } else {
             int middle = array.length / 2;
-            int[] left = new int[array.length / 2];
+            int leftLength = (array.length + 1) / 2;
+            int rightLength = array.length - leftLength;
+            int[] left = new int[leftLength];
             for (int ii = 0; ii < left.length; ii++) {
                 left[ii] = array[ii];
             }
             left = sort(left);
-            int[] right = new int[array.length / 2];
+            int[] right = new int[rightLength];
             for (int ii = 0; ii < right.length; ii++) {
                 right[ii] = array[ii + middle];
             }
